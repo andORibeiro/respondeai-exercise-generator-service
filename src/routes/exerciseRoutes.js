@@ -1,21 +1,37 @@
 const express = require("express");
-const { generateExercise } = require("../controllers/exerciseController");
+const { body } = require("express-validator");
+const { generateExercise, getPendingExercises } = require("../controllers/exerciseController");
 const authMiddleware = require("../middlewares/authMiddleware");
-const Exercise = require("../models/Exercise");
+const { validateRequest } = require("../middlewares/validationMiddleware");
 
 const router = express.Router();
 
-// Rota para listar todos os exercícios
-router.get("/", async (req, res) => {
-  try {
-    const exercises = await Exercise.find();
-    res.json(exercises);
-  } catch (err) {
-    res.status(500).json({ error: "Erro ao buscar exercícios" });
-  }
-});
-
 // Rota para gerar exercícios
-router.post("/generate", authMiddleware, generateExercise);
+router.post(
+  "/generate",
+  authMiddleware,
+  [
+    body("assunto")
+      .notEmpty()
+      .withMessage("O campo 'assunto' é obrigatório.")
+      .isString()
+      .withMessage("O campo 'assunto' deve ser uma string."),
+    body("anoLetivo")
+      .notEmpty()
+      .withMessage("O campo 'anoLetivo' é obrigatório.")
+      .isString()
+      .withMessage("O campo 'anoLetivo' deve ser uma string."),
+    body("quantidade")
+      .notEmpty()
+      .withMessage("O campo 'quantidade' é obrigatório.")
+      .isInt({ min: 1 })
+      .withMessage("O campo 'quantidade' deve ser um número inteiro positivo."),
+  ],
+  validateRequest,
+  generateExercise
+);
+
+// Rota para listar exercícios em estado "pendente"
+router.get("/pendente", authMiddleware, getPendingExercises);
 
 module.exports = router;

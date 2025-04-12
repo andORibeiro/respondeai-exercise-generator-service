@@ -16,7 +16,7 @@ app.use(express.json());
 
 const exerciseRoutes = require("./src/routes/exerciseRoutes");
 
-app.use("/exercises", exerciseRoutes);
+app.use("/exercicios", exerciseRoutes);
 
 // Rota de teste
 app.get("/", (req, res) => {

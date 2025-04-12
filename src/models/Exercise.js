@@ -25,6 +25,15 @@ const ExerciseSchema = new mongoose.Schema({
     type: Boolean,
     default: false, // Indica se a questão foi aprovada por um professor
   },
+  status: {
+    type: String,
+    enum: ["pendente", "aprovado", "rejeitado"],
+    default: "pendente", // Define o status inicial como "pendente"
+  },
+  professorId: {
+    type: String, // ID do professor associado
+    required: true,
+  },
   dataCriacao: {
     type: Date,
     default: Date.now,

@@ -6,12 +6,11 @@ admin.initializeApp({
 });
 
 module.exports = async (req, res, next) => {
-
   console.warn("⚠️ Middleware de autenticação desativado temporariamente para testes.");
   req.user = { uid: "test-user" }; // Simular um usuário autenticado
   next();
 
-/* Descomentar para autenticar o token
+  /* Descomentar para autenticar o token
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
@@ -26,5 +25,5 @@ module.exports = async (req, res, next) => {
     console.error("Erro ao verificar token:", error);
     res.status(401).json({ error: "Token inválido" });
   }
-    */
+  */
 };
