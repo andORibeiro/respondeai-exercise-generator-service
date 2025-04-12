@@ -1,6 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocs = require("./src/config/swaggerConfig");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -17,6 +19,9 @@ app.use(express.json());
 const exerciseRoutes = require("./src/routes/exerciseRoutes");
 
 app.use("/exercicios", exerciseRoutes);
+
+// Configurar Swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Rota de teste
 app.get("/", (req, res) => {
