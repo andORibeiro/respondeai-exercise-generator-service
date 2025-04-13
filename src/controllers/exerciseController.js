@@ -35,21 +35,16 @@ exports.generateExercise = async (req, res) => {
   }
 };
 
-exports.getDraftExercises = async (req, res) => {
-  try {
-    const professorId = req.user.uid; // Obter o professorId do middleware de autenticação
-    const drafts = await Exercise.find({ status: "pendente", professorId });
-    res.status(200).json(drafts);
-  } catch (error) {
-    console.error("Erro ao buscar exercícios pendentes:", error);
-    res.status(500).json({ error: "Erro ao buscar exercícios pendentes" });
-  }
-};
-
 exports.getPendingExercises = async (req, res) => {
   try {
     const professorId = req.user.uid; // Obter o professorId do middleware de autenticação
-    const pendingExercises = await Exercise.find({ status: "pendente", professorId });
+    const filters = { status: "pendente", professorId };
+
+    // Adicionar filtros opcionais
+    if (req.query.assunto) filters.assunto = req.query.assunto;
+    if (req.query.anoLetivo) filters.anoLetivo = req.query.anoLetivo;
+
+    const pendingExercises = await Exercise.find(filters);
     res.status(200).json(pendingExercises);
   } catch (error) {
     console.error("Erro ao buscar exercícios pendentes:", error);

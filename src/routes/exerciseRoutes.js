@@ -76,13 +76,13 @@ router.post(
     body("anoLetivo")
       .notEmpty()
       .withMessage("O campo 'anoLetivo' é obrigatório.")
-      .isString()
-      .withMessage("O campo 'anoLetivo' deve ser uma string."),
+      .matches(/^\d+º ano$/)
+      .withMessage("O campo 'anoLetivo' deve estar no formato 'Xº ano'."),
     body("quantidade")
       .notEmpty()
       .withMessage("O campo 'quantidade' é obrigatório.")
-      .isInt({ min: 1 })
-      .withMessage("O campo 'quantidade' deve ser um número inteiro positivo."),
+      .isInt({ min: 1, max: 50 })
+      .withMessage("O campo 'quantidade' deve ser um número inteiro entre 1 e 50."),
   ],
   validateRequest,
   generateExercise
@@ -96,6 +96,17 @@ router.post(
  *     tags: [Exercícios]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: assunto
+ *         schema:
+ *           type: string
+ *         description: Filtrar por assunto
+ *       - in: query
+ *         name: anoLetivo
+ *         schema:
+ *           type: string
+ *         description: Filtrar por ano letivo
  *     responses:
  *       200:
  *         description: Lista de exercícios pendentes
