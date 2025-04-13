@@ -79,8 +79,6 @@ docker run -d --name mongodb -p 27017:27017 mongo
 # Inicie o servidor
 npm start
 
-## 🔐 Variáveis de Ambiente
-Configure o arquivo .env com as seguintes variáveis:
 ```
 ## 🔐 Variáveis de Ambiente
 ### Configure o arquivo .env com as seguintes variáveis:
