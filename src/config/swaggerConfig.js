@@ -15,7 +15,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ["./src/routes/*.js"], // Caminho para os arquivos que contêm as anotações do Swagger
+  apis: ["./src/swaggerDocs/*.js"], // Caminho para os arquivos que contêm as anotações do Swagger
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
