@@ -20,7 +20,7 @@ exports.generateExercise = async (req, res) => {
       generatedQuestions.map((question) => ({
         assunto,
         anoLetivo,
-        quantQuestoes: question.questao,
+        enunciado: question.enunciado,
         opcoes: question.opcoes,
         respostaCorreta: question.respostaCorreta,
         status: "pendente", // Define o status inicial como "pendente"

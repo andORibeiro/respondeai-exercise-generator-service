@@ -9,7 +9,7 @@ const ExerciseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  quantQuestoes: {
+  enunciado: {
     type: String,
     required: true,
   },

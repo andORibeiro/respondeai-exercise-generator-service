@@ -1,26 +1,21 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocs = require("./src/config/swaggerConfig");
+const connectDB = require("./src/config/db"); // ⬅️ novo arquivo para conexão
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const MONGO_URI = process.env.MONGO_URI;
 
-// Conectar ao MongoDB
-mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("✅ Conectado ao MongoDB"))
-  .catch((err) => console.error("❌ Erro ao conectar ao MongoDB:", err));
+connectDB(); // ⬅️ conecta ao MongoDB Atlas
 
 app.use(express.json());
 
 const exerciseRoutes = require("./src/routes/exerciseRoutes");
 
-app.use("/exercicios", exerciseRoutes);
+app.use("/api/exercicios", exerciseRoutes);
 
-// Configurar Swagger
+// Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Rota de teste
@@ -28,7 +23,6 @@ app.get("/", (req, res) => {
   res.send("🚀 API está rodando!");
 });
 
-// Iniciar servidor
 app.listen(PORT, () => {
   console.log(`✅ Servidor rodando na porta ${PORT}`);
 });
